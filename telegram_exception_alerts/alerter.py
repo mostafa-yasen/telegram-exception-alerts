@@ -80,6 +80,7 @@ class Alerter:
         disable_web_page_preview: bool = True,
         disable_notification: bool = False,
     ):
+        import requests
         """
         Sends a telegram message to `chat_id`. All params according to https://core.telegram.org/bots/api#sendmessage
 
@@ -98,9 +99,9 @@ class Alerter:
             "disable_web_page_preview": disable_web_page_preview,
             "disable_notification": disable_notification,
         }
-        params_data = parse.urlencode(params).encode()
-        req = request.Request(url, method="POST", data=params_data)
-        return request.urlopen(req)
+        response = requests.post(url, json=params)
+        return response
+
 
     def exception_alert(self, func):
         """
